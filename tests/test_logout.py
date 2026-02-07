@@ -6,6 +6,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from src.data import Credentials
 from src.locators import Locators
 from src.data import main_site
+from src.data import Endpoints
 
 class TestLogout:
         
@@ -22,6 +23,5 @@ class TestLogout:
             driver.execute_script("arguments[0].click();", account_btn)
             WebDriverWait(driver, 10).until(EC.visibility_of_element_located(Locators.LOGOUT_BUTTON))
             driver.find_element(*Locators.LOGOUT_BUTTON).click()
-            WebDriverWait(driver,30).until(EC.url_contains("/login"))
-            assert driver.current_url == main_site + 'login'
-            driver.quit()
+            assert WebDriverWait(driver, 10).until(EC.url_contains(Endpoints.LOGIN))
+            

@@ -10,22 +10,24 @@ from src.data import main_site
 class TestKit:
         
         def test_go_to_buns_section(self, driver):
-            active_section = WebDriverWait(driver, 10).until(EC.visibility_of_element_located(Locators.TEXT_BUNS))
-            assert active_section.text == 'Булки'
-            driver.quit()
+            driver.find_element(*Locators.SAUCE_TAB).click()
+            driver.find_element(*Locators.BUNS_TAB).click()
+            WebDriverWait(driver, 10).until(EC.text_to_be_present_in_element_attribute(Locators.BUNS_TAB,"class",Locators.KIT_TAB))
+            assert Locators.KIT_TAB in driver.find_element(*Locators.BUNS_TAB).get_attribute("class")
+            
 
 
         def test_go_to_sauce_section(self, driver):
-            driver.find_element(*Locators.SAUCE_BUTTON).click()
-            element = driver.find_element(*Locators.TEXT_SAUCE)
-            driver.execute_script("arguments[0].scrollIntoView();", element)
-            assert element.text == 'Соусы'
-            driver.quit()
+            driver.find_element(*Locators.FILLING_TAB).click()
+            driver.find_element(*Locators.SAUCE_TAB).click()
+            WebDriverWait(driver, 10).until(EC.text_to_be_present_in_element_attribute(Locators.SAUCE_TAB,"class",Locators.KIT_TAB))
+            assert Locators.KIT_TAB in driver.find_element(*Locators.SAUCE_TAB).get_attribute("class")
+            
 
 
         def test_go_to_filling_section(self, driver):
-            driver.find_element(*Locators.FILLING_BUTTON).click()
-            element = driver.find_element(*Locators.TEXT_FILLING)
-            driver.execute_script("arguments[0].scrollIntoView();", element)
-            assert element.text == 'Начинки'
-            driver.quit()                   
+            driver.find_element(*Locators.SAUCE_TAB).click()
+            driver.find_element(*Locators.FILLING_TAB).click()
+            WebDriverWait(driver, 10).until(EC.text_to_be_present_in_element_attribute(Locators.FILLING_TAB,"class",Locators.KIT_TAB))
+            assert Locators.KIT_TAB in driver.find_element(*Locators.FILLING_TAB).get_attribute("class")
+                               

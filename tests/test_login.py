@@ -6,6 +6,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from src.data import Credentials
 from src.locators import Locators
 from src.data import main_site
+from src.data import Endpoints
 
 class TestLogin:
         
@@ -16,9 +17,8 @@ class TestLogin:
             WebDriverWait(driver,10).until(EC.visibility_of_element_located(Locators.PASSWORD))
             driver.find_element(*Locators.PASSWORD).send_keys(Credentials.password)
             driver.find_element(*Locators.ENTER_BUTTON).click()
-            WebDriverWait(driver,10).until(EC.url_contains(main_site))
-            assert main_site in driver.current_url 
-            driver.quit()
+            assert WebDriverWait(driver, 10).until(EC.url_contains(Endpoints.MAIN))
+            
             
 
         def test_login_button_account(self, driver):
@@ -28,9 +28,8 @@ class TestLogin:
              WebDriverWait(driver,10).until(EC.visibility_of_element_located(Locators.PASSWORD))
              driver.find_element(*Locators.PASSWORD).send_keys(Credentials.password)
              driver.find_element(*Locators.ENTER_BUTTON).click()
-             WebDriverWait(driver,10).until(EC.url_contains(main_site))
-             assert main_site in driver.current_url 
-             driver.quit()
+             assert WebDriverWait(driver, 10).until(EC.url_contains(Endpoints.MAIN))
+             
 
         def test_login_Reg_form_button(self, driver):
              driver.find_element(*Locators.ACCOUNT_BUTTON).click()
@@ -41,9 +40,8 @@ class TestLogin:
              WebDriverWait(driver,10).until(EC.visibility_of_element_located(Locators.PASSWORD))
              driver.find_element(*Locators.PASSWORD).send_keys(Credentials.password)
              driver.find_element(*Locators.ENTER_BUTTON).click()
-             WebDriverWait(driver,10).until(EC.url_contains(main_site))
-             assert main_site in driver.current_url 
-             driver.quit()   
+             assert WebDriverWait(driver, 10).until(EC.url_contains(Endpoints.MAIN))
+             
 
         def test_login_recover_password_button(self, driver):
              driver.find_element(*Locators.ACCOUNT_BUTTON).click()
@@ -53,7 +51,6 @@ class TestLogin:
              driver.find_element(*Locators.EMAIL).send_keys(Credentials.email)
              WebDriverWait(driver,10).until(EC.visibility_of_element_located(Locators.PASSWORD))
              driver.find_element(*Locators.PASSWORD).send_keys(Credentials.password)
-             driver.find_element(*Locators.ENTER_BUTTON).click()
-             WebDriverWait(driver,10).until(EC.url_contains(main_site))
-             assert main_site in driver.current_url 
-             driver.quit()                       
+             driver.find_element(*Locators.RECOVER_LOGIN_LINK).click()
+             assert WebDriverWait(driver, 10).until(EC.url_contains(Endpoints.MAIN))
+                                

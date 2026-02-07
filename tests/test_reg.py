@@ -7,6 +7,7 @@ from src.data import Credentials
 from src.locators import Locators
 from src.data import main_site
 import random
+from src.data import Endpoints
 
 
 
@@ -15,31 +16,28 @@ class TestRegistrationWithNewCredantials:
         
         driver.find_element(*Locators.LOG_TO_ACC_BUTTON).click()
         driver.find_element(*Locators.REG_BUTTON).click()
-        driver.find_element(*Locators.NAME).send_keys("Darya")
+        driver.find_element(*Locators.NAME).send_keys(Credentials.name)
         WebDriverWait(driver,10).until(EC.visibility_of_element_located(Locators.EMAIL))
-        driver.find_element(*Locators.EMAIL).send_keys(f"daria{random.randint(100, 999)}@yy.yu")
+        driver.find_element(*Locators.EMAIL).send_keys(Credentials.rand_email)
         WebDriverWait(driver,10).until(EC.visibility_of_element_located(Locators.PASSWORD))
         driver.find_element(*Locators.PASSWORD).send_keys(Credentials.password)
         driver.find_element(*Locators.REGISTER_BUTTON).click()
-        WebDriverWait(driver,30).until(EC.url_contains("/login"))
-        assert driver.current_url == main_site + 'login'
-        driver.quit()
+        assert WebDriverWait(driver, 10).until(EC.url_contains(Endpoints.LOGIN))
+        
 
 
     def test_short_password_fail(self, driver):
 
         driver.find_element(*Locators.LOG_TO_ACC_BUTTON).click()
         driver.find_element(*Locators.REG_BUTTON).click()
-        driver.find_element(*Locators.NAME).send_keys("Darya")
+        driver.find_element(*Locators.NAME).send_keys(Credentials.name)
         WebDriverWait(driver,10).until(EC.visibility_of_element_located(Locators.EMAIL))
-        driver.find_element(*Locators.EMAIL).send_keys(f"daria{random.randint(100, 999)}@yy.yu")
+        driver.find_element(*Locators.EMAIL).send_keys(Credentials.rand_email)
         WebDriverWait(driver,10).until(EC.visibility_of_element_located(Locators.PASSWORD))
-        driver.find_element(*Locators.PASSWORD).send_keys("123")
+        driver.find_element(*Locators.PASSWORD).send_keys(Credentials.short_password)
         driver.find_element(*Locators.REGISTER_BUTTON).click()
-        WebDriverWait(driver,30).until(EC.visibility_of_element_located((By.XPATH, "//*[text()='Некорректный пароль']")))
-        error = driver.find_element(By.XPATH, "//*[contains(text(), 'Некорректный пароль')]").text
-        assert error == "Некорректный пароль" 
-        driver.quit()   
+        assert WebDriverWait(driver, 10).until(EC.visibility_of_element_located(Locators.PASSWORD_ERROR))
+         
 
         
         
